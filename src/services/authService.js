@@ -1,7 +1,7 @@
 import axios from "axios";
 
 // const API_URL = "http://localhost:5000/api/v1";
-const API_URL = "https://auth-back-frontend.vercel.app/api/v1";
+const API_URL = "https://auth-back-henna.vercel.app/api/v1";
 
 const api = axios.create({
   baseURL: API_URL,
@@ -16,7 +16,7 @@ export const authService = {
       console.log("🌐 Sending login request to:", `${API_URL}/LOGIN`);
       console.log("📤 Request payload:", { email, password });
 
-      const response = await api.post("/LOGIN", { email, password });
+      const response = await api.post("/login", { email, password });
 
       console.log("✅ Login response received:", response.data);
 
@@ -51,7 +51,7 @@ export const authService = {
 
   register: async (userData) => {
     try {
-      const response = await api.post("/SIGNUP", userData);
+      const response = await api.post("/signup", userData);
       if (response.data.token) {
         localStorage.setItem("token", response.data.token);
         localStorage.setItem("user", JSON.stringify(response.data.user));
