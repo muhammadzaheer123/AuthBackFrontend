@@ -24,7 +24,7 @@ const SignUp = ({ switchToLogin }) => {
     setMessage("");
 
     if (formData.password !== formData.confirmPassword) {
-      setMessage("Passwords match nahi kar rahe!");
+      setMessage("Passwords Do Not Match!");
       setLoading(false);
       return;
     }
