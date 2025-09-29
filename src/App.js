@@ -1,58 +1,50 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   BrowserRouter as Router,
   Routes,
   Route,
   Navigate,
 } from "react-router-dom";
+import SignUp from "./pages/Signup";
 import Login from "./pages/Login";
-import Signup from "./pages/Signup";
 import Dashboard from "./pages/Dashboard";
 import "./styles/App.css";
 
-// Create a function to check authentication
-const isAuthenticated = () => {
-  const token = localStorage.getItem("token");
-  console.log("🔐 Auth check - Token exists:", !!token);
-  return !!token;
-};
-
 function App() {
+  const [isLogin, setIsLogin] = useState(true);
+
+  const switchToSignUp = () => setIsLogin(false);
+  const switchToLogin = () => setIsLogin(true);
+
+  // Check if user is already logged in
+  const isAuthenticated = () => {
+    return localStorage.getItem("token") !== null;
+  };
+
   return (
     <Router>
       <div className="App">
         <Routes>
           <Route
-            path="/login"
+            path="/"
             element={
-              !isAuthenticated() ? (
-                <Login />
+              isAuthenticated() ? (
+                <Navigate to="/dashboard" />
               ) : (
-                <Navigate to="/dashboard" replace />
-              )
-            }
-          />
-          <Route
-            path="/signup"
-            element={
-              !isAuthenticated() ? (
-                <Signup />
-              ) : (
-                <Navigate to="/dashboard" replace />
+                <div className="auth-page">
+                  {isLogin ? (
+                    <Login switchToSignUp={switchToSignUp} />
+                  ) : (
+                    <SignUp switchToLogin={switchToLogin} />
+                  )}
+                </div>
               )
             }
           />
           <Route
             path="/dashboard"
-            element={
-              isAuthenticated() ? (
-                <Dashboard />
-              ) : (
-                <Navigate to="/login" replace />
-              )
-            }
+            element={isAuthenticated() ? <Dashboard /> : <Navigate to="/" />}
           />
-          <Route path="/" element={<Navigate to="/login" replace />} />
         </Routes>
       </div>
     </Router>
