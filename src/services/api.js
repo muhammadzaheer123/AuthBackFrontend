@@ -1,9 +1,11 @@
 import axios from "axios";
 
 const API = axios.create({
-  baseURL: "https://auth-back-henna.vercel.app/api/v1",
+  baseURL: [
+    "http://localhost:5000/api/v1",
+    "http://auth-back-henna.vercel.app/api/v1",
+  ],
   withCredentials: true,
-  timeout: 10000,
 });
 
 // SignUp API Call
